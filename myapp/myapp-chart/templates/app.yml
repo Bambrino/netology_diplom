@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myapp
+    release: {{ .Release.Name }}
+  name: "myapp-{{ .Release.Name }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: myapp
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - image: "{{ .Values.image_frontend.repository }}:{{ .Values.image_frontend.tag | default .Values.image.tag }}"
+          name: frontend
+          ports:
+            - containerPort: 80
+              name: http
+      restartPolicy: Always

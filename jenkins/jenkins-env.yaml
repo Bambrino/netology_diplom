@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-env
+  namespace: jenkins
+data:
+  DOCKER_HOST: "tcp://127.0.0.1:2375"
+  DOCKER_USER_ID: "######" # Username
+  DOCKER_PASSWORD: "#######" # Password
+  JENKINS_ADMIN_ID: "admin" # Jenkins username
+  JENKINS_ADMIN_PASSWORD: "######" # Jenkins user password
+  JENKINS_LOCATION_URL: "http://127.0.0.1:32000/"

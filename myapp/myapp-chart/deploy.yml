@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myapp
+  name: myapp
+  namespace: stage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - image: bambrino/myapp:gitTag
+          imagePullPolicy: IfNotPresent
+          name: myapp
+      terminationGracePeriodSeconds: 60
+
+---
+apiVersion: v1s
+kind: Service
+metadata:
+  name: myapp
+  namespace: stage
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      nodePort: 30070
+  selector:
+    app: myapp
+  type: NodePort

@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: myapp
+    release: {{ .Release.Name }}
+  name: "myapp-{{ .Release.Name }}"
+spec:
+  ports:
+    - name: "http"
+      port: 80
+      targetPort: http
+      nodePort: 30070
+  selector:
+    app: myapp
+    release: {{ .Release.Name }}
+  type: NodePort
