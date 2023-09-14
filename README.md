@@ -33,8 +33,8 @@
 
 └── tf                    ##[Terraform]
     ├── backend.tf              [Создание бекэнда]
-    ├── jenkins.tf              [Деплой Jenkins через kubectl
-    ├── k_inventory.tf          [Генерация inventory для kuberspray
+    ├── jenkins.tf              [Деплой Jenkins через kubectl]
+    ├── k_inventory.tf          [Генерация inventory для kuberspray]
     ├── kuberspray.tf           [Установка параметра для локальной копии конфига кластера]
                                 [Запуск ansible для утсановки кластера]
                                 [Копирование конфига в $HOME/.kube/config с нужным IP адресом]
@@ -60,10 +60,13 @@
 - terraform
 - helm
 - Docker
+- Репозиторий с приложением: https://github.com/Bambrino/myapp
+- Образ Jenkins: https://hub.docker.com/repository/docker/bambrino/jenkins/general [bambrino/jenkins:v1.0]
 
 #####Предварительно были подготовлены образы для приложения:
 
-1) Ссылка на образ https://hub.docker.com/repository/docker/bambrino/myapp/general тэг latest
+1) Ссылка на образ https://hub.docker.com/repository/docker/bambrino/myapp/general [bambrino/myapp:latest]
+[Файлы](./myapp/)
 
 ```Dockerfile
 FROM nginx:latest
@@ -139,14 +142,16 @@ null_resource.jenkins: Creation complete after 12s [id=5621991147810378388]
 Apply complete! Resources: 22 added, 0 changed, 0 destroyed.
 ```
 
-###### Terraform выполнил код. Смотри наш локальный конфиг  ~/.kube/config
+###### Terraform выполнил код. Проверяем локальный конфиг  ~/.kube/config
 
 ```shell
 $ cat ~/.kube/config
 apiVersion: v1
 clusters:
 - cluster:
-    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJWWwyQ3NKekZQOXN3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TXpBNU1UUXdPREEzTkRoYUZ3MHpNekE1TVRFd09ERXlORGhhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUUREdUxYOVZJL1grbWpiUkUrdGJuRUVUZVduY0FnWnBWMklSN2NJdURUV1F4Ykw5Q2lKZDN6b3J6OEUKM0JzV2VtZUEvRmtDdnZtcnppaVhWdVFWb1A5QmpDWXR1cW9mRHBIKytYQU9XYnh0dXpXQ2Rsa04wbk1TVVZxMAptUkxISkFmTjFxQ0thUDgwVkhNTmlZaHBSZkZIMENTZjRPTWJwaGNXWFZ1OE4rTXpuQ0ZMa1N0MDZBN21pajBtCjIyY0poNVJpdHFsUFU5TGVNRWdEbU40Y2xrT3lBQi9rU2VBQjdBUEdyWk43Z1BLdlEwNUNkeVJxaTNRTld4YWkKZFVNdU4yaUVQUVVYVGpZUVBKbFdBd1p4azQvZGtnTnJUajI3dEl4eVdUc0xJL2tZcHhVSkNQajdYaXkwWG52VgpDcG1paTVKNzNidm9teWMzWGRrRmFkTGhRbk16QWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJRVmxSWUZyaENFekRqSXlDV2QxTTEvWFJFczdUQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQ2YyaElOQ1lSbgorSlRLemQrRkltYnFSOHdoTU0rUDVQcHNyS1Vxc3ovWkNMR0x6bk9QNkkxSHR3TUZMYXhmaktqZUlYcDdVTXdxCko1dGlZS0JzbWFSUlBIb0JrLzVQVm5nUk83WGhWUHc2RVNWRUs3aTM3T3RJSnd5bktXZEFtWlozSUJNUmRkUUQKTW95VklVNnJWdmh0UDBHNXdFM3NBRndWUWtWTzJkeGdZYTQreG14ZlU5NU0xdUo4YzNLbmZISU94L0VUYXMrVQpmV3lOd2IrdWxaajUvQktKMDNiQ0RkV3ZlUVhFTi85cUhDSkZ0N2I3c3pyd1FvYzFobXZBaTBReFJQeldPcFFLCktVaDNIa3o2S2FHamFEc2RmRzFSZ0grd2w3QlpSUHMyUzdHRHlzcy9aWk1pMmdXUHB1ZmlIdnpnOUxKd1VjSXAKR2V2MW03UWN5VTJzCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    certificate-authority-data: 
+    ........
+
     server: https://158.160.58.42:6443
   name: cluster.local
 contexts:
@@ -160,8 +165,11 @@ preferences: {}
 users:
 - name: kubernetes-admin-cluster.local
   user:
-    client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURJVENDQWdtZ0F3SUJBZ0lJR04vUjhSSklHRXN3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TXpBNU1UUXdPREEzTkRoYUZ3MHlOREE1TVRNd09ERXlOVEJhTURReApGekFWQmdOVkJBb1REbk41YzNSbGJUcHRZWE4wWlhKek1Sa3dGd1lEVlFRREV4QnJkV0psY201bGRHVnpMV0ZrCmJXbHVNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQW50T01BVGdPd3Btb2IrMGcKdG80YnA2alp4QW1idStTbWEyQkV0SmRvRmlhbTI4RmRtTFVXa0xUTUIyQ1Jnb3hZNVIwZkZXU1hMT1c4UDFSUAppZFU5cHFNc2pyYVVMUFBRYXZnekxJS1NxdFhRNkZLQWdCLzZBUmdENGhDMmtOejhpeU5HYi9wUlk0UmJodGQrCmxtMTM0bGJpOUVzc1VhVk9OWmY4cVlEOWlEQzI0UWdTVXdKSksrUzljVDVZeldVRXJSREhRWFdzUnZVTm5seUMKTTNwTkZFVzgwQkxLbGVxbUVZS0J1U0dtVWNzUVNOTlNPR2hJV2dWYWU0bW5CVWQ2ODh4SGM3ZnQ1NkhpQnBvTQo2aG5tL2FMVmd2UXhsVHFnNGxtWWRtdzBObk9jdzUzSkRpcWFyS2Ewc1pBN01BcS9pNTFzOU1WZG9aU25STHRNCmlmcDhod0lEQVFBQm8xWXdWREFPQmdOVkhROEJBZjhFQkFNQ0JhQXdFd1lEVlIwbEJBd3dDZ1lJS3dZQkJRVUgKQXdJd0RBWURWUjBUQVFIL0JBSXdBREFmQmdOVkhTTUVHREFXZ0JRVmxSWUZyaENFekRqSXlDV2QxTTEvWFJFcwo3VEFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBTkM5ak1RZEt1Z09xOVVpNk9yMXdNejZzOS8yWEVRVXJReExyCkFwZ0NwV0Q5ODNUelBUOERSRmxTczRENC9qdnJBSVlQUGU2dW9hZ0NwcHRtcFRRQkpLMXRUR2oya2RIem1BQ2oKZTY3ejFBbXZiTDZiOUxMcEpTeWNSY3BwdDBuY3Zhazg0YXB3aXREQTZRWVd0emRlSnRSMDZUbWlWZU5YRXRoRQpqd0JBWDRYZWowZTErSVFEZmVtbUdnVzF6bzJDaU5qSjNEOEpsTnB5SVhyQ3ByaHZFb2VVNnJsNkpQbEZJcks0CmlQNXVpU3l6SzBLb1lXRHoxUXZZa0hkVUV0UWJFeWlNelRaeUg3U1lpUGNXdGpHcHlpT1hmK3VRZllSekNpTDgKVG1iblVLbGxncmdhRkoyZmoyNDBWV1BaRVQ5NzlLbHdqcnZXbzVJSGpwTVMxcU5vZXc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
-    client-key-data: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBbnRPTUFUZ093cG1vYiswZ3RvNGJwNmpaeEFtYnUrU21hMkJFdEpkb0ZpYW0yOEZkCm1MVVdrTFRNQjJDUmdveFk1UjBmRldTWExPVzhQMVJQaWRVOXBxTXNqcmFVTFBQUWF2Z3pMSUtTcXRYUTZGS0EKZ0IvNkFSZ0Q0aEMya056OGl5TkdiL3BSWTRSYmh0ZCtsbTEzNGxiaTlFc3NVYVZPTlpmOHFZRDlpREMyNFFnUwpVd0pKSytTOWNUNVl6V1VFclJESFFYV3NSdlVObmx5Q00zcE5GRVc4MEJMS2xlcW1FWUtCdVNHbVVjc1FTTk5TCk9HaElXZ1ZhZTRtbkJVZDY4OHhIYzdmdDU2SGlCcG9NNmhubS9hTFZndlF4bFRxZzRsbVlkbXcwTm5PY3c1M0oKRGlxYXJLYTBzWkE3TUFxL2k1MXM5TVZkb1pTblJMdE1pZnA4aHdJREFRQUJBb0lCQUhzdW5aNXdhTm83TEswcQpYNzNXdDlJd0hqMXlLa3Z2Q2JlcjRYMmpGRUpoMWZZSW9kd0hUeW9LWDFlMWFRVzBibG04WFZoTlBRYkFZMkZHCnRhMjBLbTJzanFsZEo4MDVpRUwrbjBuOU4xMnlHYVdtSHkzQUh6bHI4ODhJb1YvM1ZSTmcxNGVQd0VJTDdLVEgKUzlIRnN6NWpud0JUc1ZyZGQ2d1BaaEhkRGtYcU1aQ0hjb1hNSGI4VG5RQjMvSVZMcFJ3Y2dMSXQwdnFJcndESwpsZEEwRytRRk4wNDVDMngxZm9pMWdSN2dwcFpFQVl5Z0hqYjh1NjltanlJRFVSODg1dFlvbDJFL0NQQ3U1eDhKCnUvdWExd2VaL1NDbk5jRGt5a2RmSUtWWUtVUlJMWGNKeGxpVmRrVkdHKzFHckRneTVtQnVPUVJMZUw2SzYrSnQKNDA3eEtWa0NnWUVBeTVPQTBKQ21VSWxOQzlOcEVhcjk4NWVLc0NyTFhQOXFKaDFJV1poQ1JZZlUzTFd3RFZzOApsNC9nZVIvRnhFUW5pdnZ4L1ZtRGdZbDdRbFBBc3BwZDBSWFBMMXVtSWI3WTIxOGs4cXdMdHY1Y1Y1aFFienhWCktJNHNEaWExL01mTVJCNGFIYWh4U1g0azZhMnc4akxIY29rVlFocS8xVTgvTWlVSUJHTzJOZjBDZ1lFQXg3bjQKRkVJZk1XK05CL29XTHVoTS91eDMzanV2bU9MVEVJT1ZmaVd3QjA1aXZ4T1ppd1hjMDFvS2RnemNySWFjeElmRApkMFpDQmlDeHF4OWJUZmExNnhCendacGxsV3lTZmVkTS95MzYxWVkrUmc4QVlOWE1kODhxdzl4c0h4K3JUUSsvCmQwU1FpRVd0a2JrYU9EMFRIbXBsZ2s3S1VDNERKaUo4bE8vT0FkTUNnWUJiNDlMTFVkK2dqcmsyVTFFajVua0cKMFNxSzVtWXhMaUV0M3gzZlF6ajJ4Wjh4bU5sRXppQUZrYTRUUG1JNGUwTVdHeTlaMm1QZnZyemliWWVYbHRJdQpKSmdHbW1uYzVaWmhQd3NnZHNRNjc0bWpDRitXTmplQ1BOcHA4Tk5Jcks3cE9HVTFhZWpvOFlXYjdRam42ai9ZCjFVUEJPTzNLVFNFTGMyZXhBNGtseVFLQmdRQ05hOFFhYkJ0MFFMMkc2WEV0czdWWlNJMHo0ZVZiaHpqV1Y2WFIKMWRQSHlKd3BHaks5ZXVBN0UyV1c0MUthSXhMOElmbXBDaW1UOXpCMnI5UlI1eUEzR3NZc1R5d2cydWo3bDMwdwpyeGtPZW1pNzZNRm16OXhnOVdNZG5vVThvSXNHSE9HQkRSNmVMMkJRYjlYOS9sajhUM0FqRGJFNWh1c1o1STk4ClVqVDNtd0tCZ1FDTVRIL0h5NlZwNnczLzVQa2lsbTFwNVFnN1pZbko4aHlNWkdGSUtHdU9BY1h2aVpKMUtBSWoKOTNIQ0p3cGRwWnZhTm5ZUFFhaWozUGZjTm5ZVkJybm8rNi9MZG9aNEpVMUpsNDUyOW9ZSWU0bTE5YVoxWkVOSwpXcFAyY2kraStHQ3h6Ym5qTTJMbFNObk1xYkI4Ujg2N09qd01zU3Y4cDM3NkhBdi9ESTdTSmc9PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+    client-certificate-data: 
+    ........
+
+    client-key-data: .
+    .........
 ```
 
 ###### Проверяем наличие доступа с локальной машины к нашему кластеру в Yandex Cloud:
@@ -239,6 +247,7 @@ Dashboard:
 Хранилище с состонием terraform`а:
 ![YC bucket](./sreens/yc_bucket.png)
 
+Мониторинг, наличие данных:
 ![Monitoring](./sreens/monitoring.png)
 
 Опубликованное приложение:
@@ -258,7 +267,7 @@ Jenkins Dashboard:
 
 ##### Выполнение тестовых заданий:
 
-###### Скрин DockerHub до тестов:
+###### DockerHub до тестов:
 ![DockerHub before](./sreens/dhub_at_start.png) 
 
 ###### Делаем коммит в наш репозиторий:
@@ -281,7 +290,8 @@ Jenkins Dashboard:
 ###### Jenkins "увидел" наш тэг:
 ![Jenkins after commit & tag](./sreens/jenkins_after_tag_mbranch.png) 
 
-###### Выполнил сборку и отправку образа с указанием тэга, а также разыернул в нашем кластере обновленное приложение:
+
+###### Выполнил сборку и отправку образа с указанием тэга, а также развернул в нашем кластере обновленное приложение:
 ![Jenkins after commit & tag](./sreens/jenkins_after_tag_pipe.png) 
 
 ![DockerHub after commit & tag](./sreens/dhub_after_tag.png) 
@@ -289,7 +299,7 @@ Jenkins Dashboard:
 ![MyApp after commit & tag](./sreens/simple_page_after_tag.png) 
 
 
-###### Смотрим наш кластер, все на своих местах:
+###### Смотрим кластер, все на своих местах:
 
 ```shell
 $ kubectl get pods -n stage
